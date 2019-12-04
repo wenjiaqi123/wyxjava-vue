@@ -1,6 +1,6 @@
 <template>
   <div class="Login">
-    <div v-if="false" class="loginBox">
+    <div v-if="true" class="loginBox">
       <input type="text" v-model="iphoneNo" placeholder="手机号" @blur="checkIphoneNo">
       <span style="color: red;font-size:14px">{{iphoneNoMsg}}</span>
       <br>
@@ -17,7 +17,7 @@
       <button @click="userLogin">登录</button>
     </div>
 
-    <div class="jsHackers">
+    <div v-if="false" class="jsHackers">
       <JsHacker></JsHacker>
     </div>
   </div>

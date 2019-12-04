@@ -13,16 +13,22 @@
     },
     methods: {},
     mounted() {
+      //获得 canvas
       let c = document.getElementById("c");
       let ctx = c.getContext("2d");
+      //显示字符
       let chinese = "a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9";
       chinese = chinese.split("");
-      let font_size = 10;
+      //字体大小
+      let font_size = 12;
 
+      //设置canvas 的宽高
       c.height = document.documentElement.clientHeight-100;
       c.width = 1190;
 
+      //计算列数
       let columns = c.width / font_size;
+
       let drops = [];
       for (let i = 0; i < columns; i++) {
         drops[i] = 1;
@@ -53,7 +59,7 @@
           drops[i]++;
         }
       }
-
+      //定时器
       setInterval(draw, 50);
     }
   }
