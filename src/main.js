@@ -14,24 +14,15 @@ Vue.config.productionTip = false
 
 //全局配置axios
 // axios.defaults.baseURL="http://www.wyxjava.com"
-axios.defaults.baseURL = "http://localhost:8001/StudySpringBoot"
+axios.defaults.baseURL = "http://localhost:8001/"
 axios.defaults.headers.common['Authorization'] = 'Token'
 // 解决 options 预请求
 axios.defaults.headers = {
   "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
 };
 
-const axiosLogin = axios.create({
-  baseURL:"http://localhost:8001/Login"
-})
-const axiosJava = axios.create({
-  baseURL:"http://localhost:8001/Java"
-})
-
 //添加原型对象,组件中可以直接使用this.axios
 Vue.prototype.axios = axios;
-Vue.prototype.axiosJava = axiosJava;
-Vue.prototype.axiosLogin = axiosLogin;
 
 //全局定义,使用的时候用 this.qs.stringfy(data)
 Vue.prototype.qs = qs;

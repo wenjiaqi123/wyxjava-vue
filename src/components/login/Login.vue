@@ -1,34 +1,28 @@
-<template>
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="Login">
-    <!--<div v-if="true" class="loginBox">-->
-      <!--<input type="text" v-model="iphoneNo" placeholder="手机号" @blur="checkIphoneNo">-->
-      <!--<span style="color: red;font-size:14px">{{iphoneNoMsg}}</span>-->
-      <!--<br>-->
-      <!--&lt;!&ndash;滑块验证&ndash;&gt;-->
-      <!--<SlideVerification></SlideVerification>-->
-      <!--<br>-->
-      <!--<input type="text" v-model="smsCode" placeholder="手机验证码">-->
-      <!--<br>-->
-      <!--<Checkbox v-model="agreement"></Checkbox>-->
-
-      <!--我已认真阅读且同意<a>《注册协议》</a> & <a>《隐式政策》</a>-->
-      <!--<br>-->
-      <!--<Checkbox v-model="keepPwd">记住密码</Checkbox>-->
-      <!--<button @click="userLogin">登录</button>-->
-    <!--</div>-->
-
     <div class="loginBox">
       <!--背景-->
       <div class="backgroundPic">
+
         <!--盒子-->
         <div class="loginOrRegister">
-            <div v-if="panel" class="loginPanel">
+          <!--登录方式-->
+          <div class="loginType">
+            <div @click="accountLogin" v-bind:class="accountLoginClazz">账号</div>
+            <div @click="verifyCodeLogin" v-bind:class="verifyCodeLoginClazz">免密码</div>
+          </div>
 
+          <!--根据登录方式不同，展示不同面板-->
+          <div class="loginPanel">
+            <div v-if="flag">
+              <!--账号登录-->
+              <AccountLogin></AccountLogin>
             </div>
-
-            <div v-else="panel" class="registerPanel">
-
+            <div v-else="!flag">
+              <!--验证码登录-->
+              <VerifyCodeLogin></VerifyCodeLogin>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -36,88 +30,64 @@
 </template>
 
 <script>
-  import SlideVerification from "@/components/login/SlideVerification"
-  import JsHacker from "@/components/login/JsHacker"
-  import Bus from "@/tools/bus"
-  import {
-    setCookie
-  } from "../../tools/cookie";
-
+  import AccountLogin from "@/components/login/AccountLogin"
+  import VerifyCodeLogin from "@/components/login/VerifyCodeLogin"
   export default {
-    name: "",
+    name: "Login",
     components: {
-      SlideVerification,
-      JsHacker
+      AccountLogin,
+      VerifyCodeLogin
     },
     data() {
       return {
-        //手机号
-        iphoneNo: "",
-        //手机号提示
-        iphoneNoMsg: "",
-        //手机短信验证码
-        smsCode: "",
-        //是否阅读且同意协议
-        agreement: false,
-        //是否记住密码，默认记住
-        keepPwd: true,
-        //是否登录，用于给【Header】组件传值
-        isLogin: false,
+        //登录方式 字体设置
+        accountLoginStyleFlag: false,
+        verifyCodeLoginStyleFlag: false,
+        //选择 【账号登录true】【免密码登录false】
+        flag: true
       }
     },
     methods: {
-      //onblur 验证手机号
-      checkIphoneNo: function () {
-        if (!(/^1[3456789]\d{9}$/.test(this.iphoneNo))) {
-          this.iphoneNoMsg = "请输入正确的手机号"
-        } else {
-          this.iphoneNoMsg = ""
-          Bus.$emit("myEvent-iphoneNo", this.iphoneNo);
-        }
-        return false;
+      //点击账号事件
+      accountLogin: function () {
+        //账号/验证码 样式
+        this.accountLoginStyleFlag = true;
+        this.verifyCodeLoginStyleFlag = false
+        this.flag = true;
       },
-      userLogin: function () {
-        let data = {
-          "iphoneNo": this.iphoneNo,
-          "smsCode": this.smsCode
-        }
-        // this.axios.post("/smsCode/checkSmsCode", this.qs.stringify(data))
-        this.axios.post("/smsCode/checkSmsCode", data)
-          .then(resp => {
-            //登录成功
-            let data = resp.data;
-            let msg = data.msg;
-            let userInfo = data.userInfo;
-            //登录成功，跳转主页
-            if (msg === "success") {
-              this.$router.push("/")
-            }
-            //设置 sessionStorage
-            window.sessionStorage.setItem("isLogin", true);
-            window.sessionStorage.setItem("userInfo", userInfo);
-            //如果记住密码，设置cookie
-            if (this.keepPwd) {
-              setCookie("isLogin", true);
-              setCookie("userInfo", userInfo);
-            }
-            //传值给【Header】组件，让【Header】组件内刷新【登录/个人中心】
-            this.isLogin = true;
-            Bus.$emit("myEvent-isLogin", this.isLogin);
-          })
-          .catch(resp => {
-            let data = resp.data;
-            console.log(`响应500 ${data}`);
-          });
+      //点击验证码事件
+      verifyCodeLogin: function () {
+        //账号/验证码 样式
+        this.verifyCodeLoginStyleFlag = true;
+        this.accountLoginStyleFlag = false
+        this.flag = false;
       }
+    },
+    computed: {
+      accountLoginClazz: function () {
+        return {
+          accountLogin: true,
+          accountLoginStyle: this.accountLoginStyleFlag
+        }
+      },
+      verifyCodeLoginClazz: function () {
+        return {
+          verifyCodeLogin: true,
+          verifyCodeLoginStyle: this.verifyCodeLoginStyleFlag
+        }
+      }
+    },
+    mounted() {
+      this.accountLoginStyleFlag = true;
     }
   }
 </script>
 
 <style scoped>
   /*背景图设置*/
-  .backgroundPic{
+  .backgroundPic {
     /*高度自适应*/
-    height: calc(100vh - 100px);
+    height: calc(100vh - 50px);
     width: 100%;
     background-color: #000;
 
@@ -125,16 +95,48 @@
     position: relative;
   }
 
-  .loginOrRegister{
-    width: 310px;
-    height: 350px;
+  .loginOrRegister {
+    width: 320px;
+    height: 360px;
     /*border: 1px solid black;*/
-    background-color: #FFF;
+    background-color: #F0F0F0;
     border-radius: 4px;
 
     /*相对父盒子定位*/
     position: absolute;
     top: calc(20%);
     right: calc(12%);
+  }
+
+
+  /*登录方式*/
+  .loginType {
+    width: calc(100% - 4px);
+    height: 60px;
+    margin: 2px auto;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  /*登录方式字体设置*/
+  .accountLogin,
+  .verifyCodeLogin {
+    font-size: 18px;
+    color: #888;
+    width: 50%;
+    float: left;
+    line-height: 60px;
+  }
+
+  /*登录方式点击改变样式*/
+  .accountLoginStyle,
+  .verifyCodeLoginStyle {
+    color: #F00;
+    font-weight: bolder;
+    border-bottom-color: #F00;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
   }
 </style>

@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/':{
+      '/Login':{
         //接口域名【只要修改这里的url就行】
-        target:"http://localhost:8001/",
+        target:"http://localhost:8001/Login",
         //是否跨域
         changeOrigin:true,
         pathRewrite:{
-          '^/':''
+          '^/Login':''
         }
       }
     },

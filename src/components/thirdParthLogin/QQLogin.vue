@@ -1,11 +1,6 @@
 <template>
-    <div class="News">
-      News
-      <Input
-        v-model="account"
-        placeholder="请输入手机号/邮箱/身份证"
-        size="large"
-        clearable="true"/>
+    <div class="QQ">
+        QQ 
     </div>
 </template>
 
@@ -16,7 +11,9 @@
         data() {
             return {}
         },
-        methods: {}
+        methods: {},
+        mounted() {
+        }
     }
 </script>
 

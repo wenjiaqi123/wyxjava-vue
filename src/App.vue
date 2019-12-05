@@ -43,7 +43,6 @@
     list-style: none; /* ul li 的小圆点*/
     font-family: Arial; /*字体*/
     font-size: 16px; /*文字大小*/
-    text-align: center; /*文字居中*/
   }
 
   .homeScreen {
