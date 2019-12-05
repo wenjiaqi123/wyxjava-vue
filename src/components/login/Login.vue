@@ -1,24 +1,36 @@
 <template>
   <div class="Login">
-    <div v-if="true" class="loginBox">
-      <input type="text" v-model="iphoneNo" placeholder="手机号" @blur="checkIphoneNo">
-      <span style="color: red;font-size:14px">{{iphoneNoMsg}}</span>
-      <br>
-      <!--滑块验证-->
-      <SlideVerification></SlideVerification>
-      <br>
-      <input type="text" v-model="smsCode" placeholder="手机验证码">
-      <br>
-      <Checkbox v-model="agreement"></Checkbox>
+    <!--<div v-if="true" class="loginBox">-->
+      <!--<input type="text" v-model="iphoneNo" placeholder="手机号" @blur="checkIphoneNo">-->
+      <!--<span style="color: red;font-size:14px">{{iphoneNoMsg}}</span>-->
+      <!--<br>-->
+      <!--&lt;!&ndash;滑块验证&ndash;&gt;-->
+      <!--<SlideVerification></SlideVerification>-->
+      <!--<br>-->
+      <!--<input type="text" v-model="smsCode" placeholder="手机验证码">-->
+      <!--<br>-->
+      <!--<Checkbox v-model="agreement"></Checkbox>-->
 
-      我已认真阅读且同意<a>《注册协议》</a> & <a>《隐式政策》</a>
-      <br>
-      <Checkbox v-model="keepPwd">记住密码</Checkbox>
-      <button @click="userLogin">登录</button>
-    </div>
+      <!--我已认真阅读且同意<a>《注册协议》</a> & <a>《隐式政策》</a>-->
+      <!--<br>-->
+      <!--<Checkbox v-model="keepPwd">记住密码</Checkbox>-->
+      <!--<button @click="userLogin">登录</button>-->
+    <!--</div>-->
 
-    <div v-if="false" class="jsHackers">
-      <JsHacker></JsHacker>
+    <div class="loginBox">
+      <!--背景-->
+      <div class="backgroundPic">
+        <!--盒子-->
+        <div class="loginOrRegister">
+            <div v-if="panel" class="loginPanel">
+
+            </div>
+
+            <div v-else="panel" class="registerPanel">
+
+            </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -102,10 +114,27 @@
 </script>
 
 <style scoped>
-  .loginBox input {
-    float: left;
+  /*背景图设置*/
+  .backgroundPic{
+    /*高度自适应*/
+    height: calc(100vh - 100px);
+    width: 100%;
+    background-color: #000;
+
+    /*相对自身定位*/
+    position: relative;
   }
-  .jsHackers{
-    float: left;
+
+  .loginOrRegister{
+    width: 310px;
+    height: 350px;
+    /*border: 1px solid black;*/
+    background-color: #FFF;
+    border-radius: 4px;
+
+    /*相对父盒子定位*/
+    position: absolute;
+    top: calc(20%);
+    right: calc(12%);
   }
 </style>

@@ -1,8 +1,11 @@
 <template>
   <div class="Mall">
+    <!--左侧导航栏-->
     <div class="nav">
       <MallNav v-bind:flag="flag"></MallNav>
     </div>
+
+    <!--右侧内容-->
     <div class="content">
       <div v-if="flag==1">
         <MallBook></MallBook>
@@ -10,6 +13,7 @@
       <div v-else-if="flag==2">
         <MallYinJian></MallYinJian>
       </div>
+
     </div>
   </div>
 </template>
@@ -47,6 +51,6 @@
     float: right;
     border: 1px solid red;
     height: 300px;
-    width: 940px;
+    width: calc(100% - 250px);
   }
 </style>

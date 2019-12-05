@@ -2,10 +2,12 @@
   <div class="app">
     <!--页面导航栏-->
     <Header></Header>
+
     <!--主界面-->
-    <div class="realBody">
+    <div class="homeScreen">
       <router-view/>
     </div>
+
     <!--页脚-->
     <Footer></Footer>
   </div>
@@ -44,9 +46,10 @@
     text-align: center; /*文字居中*/
   }
 
-  .realBody {
-    height: 800px;
+  .homeScreen {
+    /*限定各个路由的宽度*/
     width: 1190px;
     margin: 0 auto;
+    /*border: 3px solid #2d8cf0;*/
   }
 </style>
