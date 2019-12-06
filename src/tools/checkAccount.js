@@ -22,3 +22,15 @@ export function checkEmail(email) {
   return true;
 }
 
+/**
+ * 校验是否为空
+ * @param str
+ * @returns {boolean}
+ */
+export function checkStrIsNull(str) {
+  if (str == null || str == "") {
+    return true;
+  }
+  return false;
+}
+

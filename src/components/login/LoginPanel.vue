@@ -9,9 +9,10 @@
             type="text"
             v-model="account"
             placeholder="请输入手机号/邮箱/身份证"
-            :size="setting.size"
-            :clearable="setting.clearable"
+            size="large"
+            clearable
             prefix="ios-contact-outline"
+            @on-focus="clearAccountTip"
             @on-blur="checkAccount"/>
         </div>
         <div class="accountTip">
@@ -22,10 +23,12 @@
             type="password"
             v-model="password"
             placeholder="请输入密码"
-            :size="setting.size"
-            :clearable="setting.clearable"
+            size="large"
+            clearable
             password="true"
-            prefix="ios-lock-outline"/>
+            prefix="ios-lock-outline"
+            @on-focus="clearPwdTip"
+            @on-blur="checkPwd"/>
         </div>
         <div class="passwordTip">
           {{passwordTip}}
@@ -51,7 +54,8 @@
           <Button
             type="success"
             size="large"
-            html-type="button">
+            html-type="button"
+            @click="login">
             登录
           </Button>
         </div>
@@ -65,7 +69,8 @@
 <script>
   import {
     checkIphoneNo,
-    checkEmail
+    checkEmail,
+    checkStrIsNull
   } from "../../tools/checkAccount";
 
   export default {
@@ -74,15 +79,12 @@
     },
     data() {
       return {
-        //iView 框配置参数
-        setting: {
-          //框大小 large default(默认) small
-          size: "large",
-          //是否显示清空按钮
-          clearable: "true"
-        },
         //账号
         account: "",
+        //手机号
+        iphoneNo: "",
+        //邮箱
+        userEmail: "",
         //账号提示
         accountTip: "",
         //密码
@@ -96,28 +98,59 @@
     methods: {
       //账号输入框 失焦，校验账号
       checkAccount: function () {
-        let _this = this;
         //校验是否是规范的手机号 邮箱号
         let isLoginNo = checkIphoneNo(this.account);
         let isEmail = checkEmail(this.account);
-        if (!isLoginNo && !isEmail) {
-          this.accountTip = "请输入正确的手机号/邮箱"
+        //如果是手机号
+        if (isLoginNo) {
+          this.iphoneNo = this.account;
+          this.userEmail = "";
+        } else if (isEmail) {
+          this.userEmail = this.account;
+          this.iphoneNo = "";
+        } else {
+          this.accountTip = "请输入正确的手机号/邮箱";
         }
-        //发送请求，查看该账号是否已经注册
-        this.axios.get(`/Login/register/iphoneNoIsRegister/${this.account}`)
+      },
+      //账户输入框 聚焦，清掉 提示
+      clearAccountTip: function () {
+        this.accountTip = "";
+      },
+      //密码输入框，失焦，校验真好
+      checkPwd: function () {
+        let isNull = checkStrIsNull(this.password);
+        if (isNull) {
+          this.passwordTip = "请输入密码";
+        }
+      },
+      //密码输入框 聚焦，清掉 提示
+      clearPwdTip: function () {
+        this.passwordTip = "";
+      },
+      //登录
+      login: function () {
+        //校验账号
+        this.checkAccount();
+        //校验密码
+        this.checkPwd();
+        let data = {
+          iphoneNo: this.iphoneNo,
+          userEmail: this.userEmail,
+          /**
+           * Base64.encode("需要加密字符串")
+           * Base64.decode("需要解密字符串")
+           * this.Md5("需要加密的字符串")   Md5 不能解密
+           */
+          userPwdPlaintext: Base64.encode(this.password),
+          userPwdCiphertext: this.Md5(this.password)
+        }
+        this.axios.post("/Login/login/userLogin", data)
           .then(resp => {
-            if (resp.data.code == 200) {
-              let data = resp.data.data;
-              this.accountTip = data.msg;
-            }
-            if (resp.data.code == 500) {
-              let msg = resp.data.msg
-              this.accountTip = msg;
-            }
-          })
+
+          });
       },
       //忘记密码，跳转重置密码路由
-      forgetPwd:function(){
+      forgetPwd: function () {
         this.$router.push("/resetPwd");
       },
       //点击注册，跳转注册路由

@@ -7,7 +7,9 @@ import axios from 'axios'
 import qs from 'qs'
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
-import SlideVerify from 'vue-monoplasty-slide-verify'
+import SlideVerify from 'vue-monoplasty-slide-verify';
+import Base64 from "js-base64";
+import Md5 from "js-md5";
 
 //关闭生产模式下给出的提示
 Vue.config.productionTip = false
@@ -26,6 +28,9 @@ Vue.prototype.axios = axios;
 
 //全局定义,使用的时候用 this.qs.stringfy(data)
 Vue.prototype.qs = qs;
+
+Vue.prototype.Base64 = Base64;
+Vue.prototype.Md5 = Md5;
 
 //使用IView样式
 Vue.use(ViewUI)
