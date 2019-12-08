@@ -56,23 +56,28 @@
     margin-left: 20px;
   }
   .wechat {
+    cursor: pointer;
     height: 34px;
     width: 34px;
   }
   .qq {
+    cursor: pointer;
     height: 34px;
     width: 30px;
   }
   .alipay {
+    cursor: pointer;
     height: 36px;
     width: 36px;
   }
   .github {
+    cursor: pointer;
     height: 34px;
     width: 34px;
   }
 
   .gitee {
+    cursor: pointer;
     height: 32px;
     width: 40px;
   }

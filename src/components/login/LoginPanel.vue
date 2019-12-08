@@ -1,4 +1,4 @@
-<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<template>
   <div class="loginPanel">
     <div class="loginPanelBox">
 
@@ -25,7 +25,7 @@
             placeholder="请输入密码"
             size="large"
             clearable
-            password="true"
+            password
             prefix="ios-lock-outline"
             @on-focus="clearPwdTip"
             @on-blur="checkPwd"/>
@@ -75,7 +75,7 @@
 
   export default {
     name: "",
-    components() {
+    components:{
     },
     data() {
       return {
@@ -226,6 +226,7 @@
     float: left;
     font-size: 16px;
     color: #888888;
+    cursor: pointer;
   }
 
   /*忘记密码 注册*/

@@ -1,24 +1,30 @@
 <template>
   <div class="register">
-    <Input
-      type="text"
-      v-model="iphoneNo"
-      placeholder="请输入手机号"
-      size="large"
-      clearable=true
-      prefix="ios-contact-outline"
-      @on-focus="clearIphoneNoTip"
-      @on-blur="checkIphoneNum"/>
+    <div>
+      <Input
+        type="text"
+        v-model="iphoneNo"
+        placeholder="请输入手机号"
+        size="large"
+        clearable
+        prefix="ios-contact-outline"
+        @on-focus="clearIphoneNoTip"
+        @on-blur="checkIphoneNum"/>
+    </div>
     <br>
-    {{iphoneNoTip}}
+    <div>
+      {{iphoneNoTip}}
+    </div>
+
     <br>
-    <button @click="getSmsCode">点我获取验证码</button>{{getSmsCodeTip}}
+    <button @click="getSmsCode">点我获取验证码</button>
+    {{getSmsCodeTip}}
     <Input
       type="text"
       v-model="smsCode"
       placeholder="请输入手机验证码"
       size="large"
-      clearable=true
+      clearable
       prefix="ios-contact-outline"/>
     {{smsCodeTip}}
     <button @click="registerAccount">注册</button>
@@ -32,8 +38,7 @@
 
   export default {
     name: "",
-    components() {
-    },
+    components: {},
     data() {
       return {
         //手机号
@@ -106,18 +111,40 @@
          */
         if (this.iphoneNo == null || this.iphoneNo.trim() == "") {
           this.iphoneNoTip = "请输入手机号"
-        }else {
+        } else {
           this.iphoneNoTip = ""
         }
-        if(this.smsCode == null || this.smsCode.trim() == ""){
+        if (this.smsCode == null || this.smsCode.trim() == "") {
           this.smsCodeTip = "请输入验证码"
-        }else {
+        } else {
           this.smsCodeTip = ""
         }
         /**
          * 发送请求
          */
+        let data = {
+          //手机号
+          iphoneNo: this.iphoneNo,
+          //验证码
+          smsCode: this.smsCode
+        }
+        this.axios.post("/Login/smsCode/selectSmsCodeByIphoneNo", data)
+          .then(resp => {
+            let code = resp.data.code;
+            let dataBody = resp.data.data;
+            if (code == 200) {
+              if (dataBody.flag) {
+                //校验成功
+                this.smsCodeTip = dataBody.msg;
+              }else{
+                //校验失败
+                this.smsCodeTip = dataBody.msg;
+              }
+            }
+            if (code == 500) {
 
+            }
+          })
       }
     },
     mounted() {

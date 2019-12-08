@@ -12,7 +12,7 @@
         loop>
         <CarouselItem v-for="i in charts" class="aaa">
           <div class="chartBox">
-            <img v-bind:src="i" class="chart" @click="openNewPage">
+            <img v-bind:src="i" class="chart" @click="openNewPage" v-bind:key="i">
           </div>
         </CarouselItem>
       </Carousel>

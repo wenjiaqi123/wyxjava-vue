@@ -116,6 +116,7 @@
     margin: 2px auto;
     border-radius: 4px;
     text-align: center;
+    cursor: pointer;
   }
 
   /*登录方式字体设置*/

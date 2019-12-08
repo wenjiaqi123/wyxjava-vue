@@ -7,7 +7,8 @@ import MallNav from '@/components/mall/MallNav'
 import Software from '@/components/software/Software'
 import Course from '@/components/course/Course'
 import Login from '@/components/login/Login'
-import Register from '@/components/login/Register'
+import Register from '@/components/register/Register'
+import SpinRegisterPanel from '@/components/spin/SpinRegisterPanel'
 import JsHacker from '@/components/login/JsHacker'
 import WeChatLogin from '@/components/thirdParthLogin/WeChatLogin'
 import QQLogin from '@/components/thirdParthLogin/QQLogin'
@@ -31,13 +32,14 @@ export default new Router({
     {path: '/software',name: 'Software', component: Software},
     {path: '/course',name: 'Course',component: Course},
     {path: '/login',name: 'Login',component: Login},
+    {path: '/jsHacker',name: 'JsHacker',component: JsHacker},
     {path: '/register',name: 'Register',component: Register},
+    {path: '/spinRegisterPanel',name: 'SpinRegisterPanel',component: SpinRegisterPanel},
     {path: '/weChatLogin',name: 'WeChatLogin',component: WeChatLogin},
     {path: '/QQLogin',name: 'QQLogin',component: QQLogin},
     {path: '/aliPayLogin',name: 'AliPayLogin',component: AliPayLogin},
     {path: '/githubLogin',name: 'GithubLogin',component: GithubLogin},
     {path: '/giteeLogin',name: 'GiteeLogin',component: GiteeLogin},
-
     {path: '/userCenter',name: 'UserCenter',component: UserCenter},
     {path: '/resetPwd',name: 'ResetPwd',component: ResetPwd},
     {path: '/news',name: 'News',component: News},
