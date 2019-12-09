@@ -72,11 +72,15 @@
     checkEmail,
     checkStrIsNull
   } from "../../tools/checkAccount";
+  import {
+    setCookie,
+    getCookie
+  } from "@/tools/cookie";
+  import Bus from "@/tools/bus"
 
   export default {
     name: "",
-    components:{
-    },
+    components: {},
     data() {
       return {
         //账号
@@ -144,9 +148,27 @@
           userPwdPlaintext: Base64.encode(this.password),
           userPwdCiphertext: this.Md5(this.password)
         }
-        this.axios.post("/Login/login/userLogin", data)
+        this.axios.post(`/${this.domain.Login}/login/userLogin`, data)
           .then(resp => {
-
+            let code = resp.data.code;
+            let data = resp.data.data;
+            if (code == 200) {
+              let token = data.token;
+              //存到本地
+              window.sessionStorage.setItem("token", token);
+              let userInfo = JSON.stringify(data.userDto);
+              window.sessionStorage.setItem("userInfo",userInfo);
+              //如果记住密码，保存到cookie
+              if(this.keepPwd){
+                setCookie("isLogin", true);
+                setCookie("userInfo", userInfo);
+                setCookie("token", token);
+              }
+              //传值给【Header】组件，让【Header】组件内刷新【登录/个人中心】
+              this.isLogin = true;
+              Bus.$emit("myEvent-isLogin", this.isLogin);
+              this.$router.push("/");
+            }
           });
       },
       //忘记密码，跳转重置密码路由
@@ -158,6 +180,12 @@
         this.$router.push("/register");
       }
     },
+    mounted(){
+      let token = getCookie("token");
+      let userInfo = getCookie("userInfo");
+      let parse = JSON.parse(userInfo);
+      this.account = parse.iphoneNo;
+    }
   }
 </script>
 

@@ -8,6 +8,7 @@ import qs from 'qs'
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 import SlideVerify from 'vue-monoplasty-slide-verify';
+import domain from '@/tools/domain'
 import Base64 from "js-base64";
 import Md5 from "js-md5";
 
@@ -25,17 +26,26 @@ axios.defaults.headers = {
 
 //添加原型对象,组件中可以直接使用this.axios
 Vue.prototype.axios = axios;
-
 //全局定义,使用的时候用 this.qs.stringfy(data)
 Vue.prototype.qs = qs;
-
+//引入加密
 Vue.prototype.Base64 = Base64;
 Vue.prototype.Md5 = Md5;
+Vue.prototype.domain = domain;
+
 
 //使用IView样式
 Vue.use(ViewUI)
 //使用功能滑块验证
 Vue.use(SlideVerify)
+
+
+
+//iView 通知设置
+Vue.prototype.$Notice.config({
+  top: 300,
+  duration: 3
+});
 
 //创建一个 Vue 对象
 new Vue({

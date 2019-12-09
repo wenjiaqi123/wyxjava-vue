@@ -31,11 +31,11 @@
         </div>
         <!--手机验证-->
         <div v-else-if="bodyPanel==2">
-          <IphoneCheck @my-event="getData"></IphoneCheck>
+          <IphoneCheck @my-event="getData" v-bind:iphoneNum="iphoneNo"></IphoneCheck>
         </div>
         <!--基本信息-->
         <div v-else-if="bodyPanel==3">
-          <BaseInfo></BaseInfo>
+          <BaseInfo @my-event="getData" v-bind:iphoneNum="iphoneNo"></BaseInfo>
         </div>
         <!--注册成功-->
         <div v-else="bodyPanel==4">
@@ -62,6 +62,8 @@
     },
     data() {
       return {
+        //手机号
+        iphoneNo:"",
         //手机验证颜色
         iphoneCheckStyle: false,
         //基本信息颜色
@@ -87,8 +89,9 @@
       },
       //接收子组件传值
       getData:function (data) {
-        this.bodyPanel = data;
-        switch (data) {
+        this.bodyPanel = data.panel;
+        this.iphoneNo = data.iphoneNo;
+        switch (this.bodyPanel) {
           case 2:
             this.iphoneCheckFlag();
             break;
@@ -143,7 +146,7 @@
     border-bottom-width: 3px;
     border-bottom-style: solid;
     border-bottom-color: #CCC;
-    border-radius: 8px;
+    border-radius: 2px;
   }
 
   /*注册页面下半部分*/

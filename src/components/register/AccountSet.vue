@@ -63,9 +63,6 @@
     <div v-if="isRegister" class="spinBox">
       <SpinRegisterPanel></SpinRegisterPanel>
     </div>
-    <Icon
-      custom="iconfont icon-shouji"
-    />
   </div>
 </template>
 
@@ -129,7 +126,7 @@
        */
       sendIphoneNoIsRegister: function () {
         if (this.iphoneNo != "" && this.robotFlag) {
-          this.axios.get(`/Login/register/iphoneNoIsRegister/${this.iphoneNo}`)
+          this.axios.get(`/${this.domain.Login}/register/iphoneNoIsRegister/${this.iphoneNo}`)
             .then(resp => {
               let code = resp.data.code;
               let data = resp.data.data;
@@ -151,7 +148,7 @@
         }
         //人机验证
         if (!this.robotFlag) {
-          this.$Notice.info({
+          this.$Notice.warning({
             top: 800,
             title: "没有进行人机验证"
           });
@@ -164,7 +161,11 @@
           });
           return false;
         }
-        this.$emit("my-event", 2);
+        //给父组件传值，控制【设置账户】【手机验证】【基本信息】【注册成功】显示
+        this.$emit("my-event", {
+          panel: 2,
+          iphoneNo: this.iphoneNo
+        });
       }
     },
     mounted() {
