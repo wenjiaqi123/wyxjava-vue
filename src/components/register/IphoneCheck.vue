@@ -128,6 +128,7 @@
         this.c = setInterval(() => {
           this.countDown--;
           if (this.countDown == 0) {
+            this.countDown = 30;
             this.verifyCodeButtonFlag = true;
           }
         }, 1000)

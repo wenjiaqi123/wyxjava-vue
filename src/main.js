@@ -16,8 +16,8 @@ import Md5 from "js-md5";
 Vue.config.productionTip = false
 
 //全局配置axios
-// axios.defaults.baseURL="http://www.wyxjava.com"
-axios.defaults.baseURL = "http://localhost:8001/"
+axios.defaults.baseURL="http://www.wyxjava.com:8001"
+// axios.defaults.baseURL = "http://localhost:8001/"
 axios.defaults.headers.common['Authorization'] = 'Token'
 // 解决 options 预请求
 axios.defaults.headers = {
@@ -32,7 +32,6 @@ Vue.prototype.qs = qs;
 Vue.prototype.Base64 = Base64;
 Vue.prototype.Md5 = Md5;
 Vue.prototype.domain = domain;
-
 
 //使用IView样式
 Vue.use(ViewUI)

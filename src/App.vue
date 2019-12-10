@@ -48,6 +48,7 @@
   .homeScreen {
     /*限定各个路由的宽度*/
     width: 1190px;
+    height: calc(100vh - 50px);
     margin: 0 auto;
     /*border: 3px solid #2d8cf0;*/
   }

@@ -11,10 +11,10 @@
               <span class="bg-pic home"></span>
               <span>主页</span>
             </li>
-            <li @click="intoMall">
-              <span class="bg-pic mall"></span>
-              <span>商城</span>
-            </li>
+            <!--<li @click="intoMall">-->
+            <!--<span class="bg-pic mall"></span>-->
+            <!--<span>商城</span>-->
+            <!--</li>-->
             <li @click="intoSoftware">
               <span class="bg-pic software"></span>
               <span>软件</span>
@@ -35,7 +35,23 @@
             </li>
             <li v-else="isLogin" @click="intoUserCenter">
               <span class="bg-pic login"></span>
-              <span>个人中心</span>
+              <Dropdown>
+                <span>个人中心</span>
+                <DropdownMenu slot="list">
+                  <DropdownItem>
+                    设置
+                  </DropdownItem>
+                  <DropdownItem>
+                    课程
+                  </DropdownItem>
+                  <DropdownItem>
+                    创作
+                  </DropdownItem>
+                  <DropdownItem divided>
+                    退出
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </li>
             <li @click="intoNews">
               <span class="bg-pic news"></span>
@@ -102,7 +118,7 @@
         this.isLogin = true;
       }
       //监听【Login】组件,如果登录，修改isLogin值，刷新组件
-      Bus.$on("myEvent-isLogin",(data)=>{
+      Bus.$on("myEvent-isLogin", (data) => {
         this.isLogin = data;
       });
     }
@@ -150,6 +166,14 @@
 
   .navigation .mall {
     background-image: url(../../assets/header/mall.png);
+  }
+
+  .navigation .software {
+    background-image: url(../../assets/header/software.png);
+  }
+
+  .navigation .course {
+    background-image: url(../../assets/header/course.png);
   }
 
   .navigation .login {

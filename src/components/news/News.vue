@@ -12,11 +12,10 @@
     name: "",
     components: {},
     data() {
-      return {
-      }
+      return {}
     },
     methods: {
-      aaa:function () {
+      aaa: function () {
         this.axios.get(`${domain.Login}/aa`).then()
       }
     },
@@ -26,5 +25,4 @@
 </script>
 
 <style scoped>
-
 </style>
